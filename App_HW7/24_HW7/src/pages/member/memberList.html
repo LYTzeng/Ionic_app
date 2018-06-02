@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>成員管理</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <ion-list inset *ngIf="logged">
+        <ion-item *ngFor="let student of students" [navPush]="memberDetailPage" [navParams]="student.studentId">
+            <ion-avatar item-start>
+                <ion-icon name="contact" color="primary"></ion-icon>
+            </ion-avatar>
+            <h2>{{student.member.name}}</h2>
+            <p>{{student.studentId}}</p>
+            <p>{{student.department}}</p>
+            <ion-note item-end>{{(student.performance.actionState == 1) ? "實習中" : "離線"}}</ion-note>
+        </ion-item>
+    </ion-list>
+
+    <div *ngIf="!logged" id="hint">
+        <ion-card>
+            <ion-card-header>
+                <h1>歡迎使用</h1>
+            </ion-card-header>
+            <ion-card-content>
+                <p>《智能學堂》課程管理App</p>
+                <p>請點擊【設定】選單</p>
+                <p>完成登入手續</p>
+                <p>以開啟管理功能</p>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>

@@ -1,0 +1,7 @@
+node_modules/**
+App_HW7/24_HW7/node_modules
+CloudFunctions_HW7/node_modules
+sheetConfig.ts
+platforms/
+plugins/
+resources/

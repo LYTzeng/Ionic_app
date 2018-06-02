@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>智能學堂</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ng-container *ngIf="student; else loading">
+        <ion-item text-center>
+            <img src="assets/imgs/icon.png">
+        </ion-item>
+        <ion-grid class="profile">
+            <ion-row>
+                <ion-col col-3>姓名</ion-col>
+                <ion-col col-9>{{student.member.name}}</ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-3>學號</ion-col>
+                <ion-col col-9>{{student.studentId}}</ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-3>系級</ion-col>
+                <ion-col col-9>{{student.department}}</ion-col>
+            </ion-row>
+            <br />
+            <ion-row>
+                <ion-col col-3>手機</ion-col>
+                <ion-col col-9>
+                    <a [href]="'tel:' + student.member.phone">{{student.member.phone}}</a>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-3>Email</ion-col>
+                <ion-col col-9>
+                    <a [href]="'mailto:' + student.member.email">{{student.member.email}}</a>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-3>Line</ion-col>
+                <ion-col col-9>{{student.member.lineId}}</ion-col>
+            </ion-row>
+            <br />
+            <ion-row>
+                <ion-col col-3>狀態</ion-col>
+                <ion-col col-9 item-end>{{(student.performance.actionState == 1) ? "實習中" : "離線"}}</ion-col>
+            </ion-row>
+        </ion-grid>
+    </ng-container>
+    <ng-template #loading>
+        Loading...
+    </ng-template>
+</ion-content>
