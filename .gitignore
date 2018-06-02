@@ -1,10 +1,8 @@
-node_modules/**
-App_HW7/24_HW7/node_modules
-CloudFunctions_HW7/node_modules
 sheetConfig.ts
 platforms/
 plugins/
 resources/
+
 # Logs
 logs
 *.log
@@ -66,3 +64,4 @@ typings/
 
 # next.js build output
 .next
+
