@@ -2,6 +2,7 @@ sheetConfig.ts
 platforms/
 plugins/
 resources/
+environment.ts
 
 # Logs
 logs
