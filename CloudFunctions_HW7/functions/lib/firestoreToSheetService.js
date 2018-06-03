@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
-const sheetService = require("./services/sheetService");
+const sheetService = require("./sheetService");
 const sheetColumns = require("./sheetColumns");
 exports.firestoreToSheetStudent = functions.firestore.document("Student/{studentId}").onUpdate((change, context) => __awaiter(this, void 0, void 0, function* () {
     const oldStudent = change.before.data();

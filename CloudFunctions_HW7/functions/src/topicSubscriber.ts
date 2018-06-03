@@ -4,7 +4,7 @@ import * as line from '@line/bot-sdk'
 import * as PubSub from "@google-cloud/pubsub"
 import * as uuid from 'uuid'
 
-import * as sheetService from './services/sheetService'
+import * as sheetService from './sheetService'
 
 import { linePushList, appIdList } from './sheetColumns'
 import { lineConfig } from './sheetConfig'

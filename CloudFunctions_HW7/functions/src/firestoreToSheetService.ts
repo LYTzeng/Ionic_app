@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions"
 import * as admin from "firebase-admin"
 
-import * as sheetService from "./services/sheetService"
+import * as sheetService from "./sheetService"
 import { Student, Member, Performance } from "./firestoreModel"
 import * as sheetColumns from "./sheetColumns"
 
