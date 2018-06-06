@@ -10,19 +10,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const line = require("@line/bot-sdk");
+const bot_sdk_1 = require("@line/bot-sdk");
 const PubSub = require("@google-cloud/pubsub");
 const uuid = require("uuid");
 const sheetService = require("./sheetService");
 const sheetColumns_1 = require("./sheetColumns");
 const sheetConfig_1 = require("./sheetConfig");
 const cors = require("cors")({ origin: true });
-const lineClient = new line.Client(sheetConfig_1.lineConfig);
+const lineClient = new bot_sdk_1.Client({
+    channelSecret: sheetConfig_1.lineConfig.channelSecret,
+    channelAccessToken: sheetConfig_1.lineConfig.channelAccessToken
+});
 const messaging = admin.messaging();
 const pubsub = PubSub();
 const firestore = admin.firestore();
 const adminCollection = firestore.collection("Admin");
 const postCollection = firestore.collection("Post");
+const studentCollection = firestore.collection("Student");
 exports.publishChatTopic = functions.https.onRequest((req, res) => {
     cors(req, res, () => __awaiter(this, void 0, void 0, function* () {
         const chatMessage = req.body;
@@ -100,13 +104,16 @@ exports.postFCMSubscriber = functions.pubsub.topic("postTopic").onPublish((data,
 exports.postLinePushSubscriber = functions.pubsub.topic("postTopic").onPublish((data, context) => __awaiter(this, void 0, void 0, function* () {
     const chatMessage = data.json;
     const auth = yield sheetService.authorize();
-    const appIdListQueryString = `Select ${sheetColumns_1.appIdList.id}, ${sheetColumns_1.appIdList.name}, ${sheetColumns_1.appIdList.organization} where ${sheetColumns_1.appIdList.id} = '1'`;
-    const appIdListResult = yield sheetService.querySheet(auth, appIdListQueryString, sheetColumns_1.appIdList.spreadsheetId, sheetColumns_1.appIdList.gid);
+    /* 推到LINE群組的部分 */
+    // 從appIdList sheet抓資料
+    /*
+    const appIdListQueryString = `Select ${appIdList.id}, ${appIdList.name}, ${appIdList.organization} where ${appIdList.id} = '1'`
+    const appIdListResult = await sheetService.querySheet(auth, appIdListQueryString, appIdList.spreadsheetId, appIdList.gid) as Array<any>
     if (appIdListResult.length > 0) {
-        const appId = appIdListResult[0][0];
-        const appName = appIdListResult[0][1];
-        const appOrganization = appIdListResult[0][2];
-        const appMessage = {
+        const appId = appIdListResult[0][0]
+        const appName = appIdListResult[0][1]
+        const appOrganization = appIdListResult[0][2]
+        const appMessage: AppMessage = {
             id: "1",
             appId: {
                 id: appId,
@@ -114,16 +121,45 @@ exports.postLinePushSubscriber = functions.pubsub.topic("postTopic").onPublish((
                 organization: appOrganization
             },
             message: chatMessage
-        };
-        const linePushListQueryString = `Select ${sheetColumns_1.linePushList.id}, ${sheetColumns_1.linePushList.messageTopic}, ${sheetColumns_1.linePushList.appId}, ${sheetColumns_1.linePushList.lineGroupId}, ${sheetColumns_1.linePushList.groupName} where ${sheetColumns_1.linePushList.appId} = '${appMessage.appId.id}'`;
-        const linePushListQueryResult = yield sheetService.querySheet(auth, linePushListQueryString, sheetColumns_1.linePushList.spreadsheetId, sheetColumns_1.linePushList.gid);
+        }
+
+
+        const linePushListQueryString = `Select ${linePushList.id}, ${linePushList.messageTopic}, ${linePushList.appId}, ${linePushList.lineGroupId}, ${linePushList.groupName} where ${linePushList.appId} = '${appMessage.appId.id}'`
+        const linePushListQueryResult = await sheetService.querySheet(auth, linePushListQueryString, linePushList.spreadsheetId, linePushList.gid) as Array<any>
         if (linePushListQueryResult.length > 0) {
-            const lineGroupId = linePushListQueryResult[0][3];
-            yield lineClient.pushMessage(lineGroupId, {
+            const lineGroupId = linePushListQueryResult[0][3]
+            await lineClient.pushMessage(lineGroupId, {
                 type: "text",
                 text: appMessage.message.message
-            });
+            })
         }
+        
+    }*/
+    /* 讀firestore
+    const allMembers = studentCollection.get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+                console.log(doc.id, "=>", doc.data)
+            })
+        })
+        .catch(err => {
+            console.log('Error getting document from collection "Student" Damn!', err)
+        })
+    */
+    const memberQueryString = `Select ${sheetColumns_1.member.lineId}`;
+    const memberQueryResult = yield sheetService.querySheet(auth, memberQueryString, sheetColumns_1.member.spreadsheetId, sheetColumns_1.member.gid);
+    console.log(memberQueryResult);
+    for (let i = 0; memberQueryResult[i] != null; i++) {
+        let lineId = memberQueryResult[i][0];
+        const lineMessage = {
+            type: "text",
+            text: chatMessage.message
+        };
+        pushMessage(lineId, lineMessage);
+        console.log(chatMessage.message, "已推送給使用者", lineId);
     }
 }));
+const pushMessage = (userId, lineMessage) => {
+    return lineClient.pushMessage(userId, lineMessage);
+};
 //# sourceMappingURL=topicSubscriber.js.map

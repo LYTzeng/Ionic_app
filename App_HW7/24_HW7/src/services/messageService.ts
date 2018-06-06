@@ -39,6 +39,7 @@ export class MessageService {
 
     async publishPostMessage(chatMessage: ChatMessage): Promise<any> {
         this.http.post(this.url + "/publishPostTopic", chatMessage).toPromise()
+
     }
 
     async getSQLiteDB(): Promise<SQLiteObject> {
