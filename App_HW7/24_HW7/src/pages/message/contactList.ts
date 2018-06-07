@@ -32,7 +32,7 @@ export class ContactListController implements OnDestroy {
                 this.adminSubscription = firebaseService.getAdminByAccount(firebaseUser.uid).subscribe(admin => this.admin = admin)
                 this.adminsSubscription = firebaseService.getAdmins().subscribe(admins => {
                     this.admins = admins.filter(admin => {
-                        return admin.account !== firebaseUser.uid && admin.member.fcmToken
+                        return admin.account !== firebaseUser.uid //&& admin.member.fcmToken
                     })
                 })
             } else
