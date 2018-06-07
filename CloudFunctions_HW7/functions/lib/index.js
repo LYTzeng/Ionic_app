@@ -6,7 +6,6 @@ admin.initializeApp(functions.config().firebase);
 const SheetToFirestoreService = require("./sheetToFirestoreService");
 const FirestoreToSheetService = require("./firestoreToSheetService");
 const AuthenticationService = require("./authenticationService");
-const MessageService = require("./topicSubscriber");
 exports.sheetToFirestoreStudent = SheetToFirestoreService.sheetToFirestoreStudent;
 exports.sheetToFirestoreMember = SheetToFirestoreService.sheetToFirestoreMember;
 exports.sheetToFirestorePerformance = SheetToFirestoreService.sheetToFirestorePerformance;
@@ -15,11 +14,14 @@ exports.sheetToFirestoreAdmin = SheetToFirestoreService.sheetToFirestoreAdmin;
 exports.firestoreToAuthentication = AuthenticationService.firestoreToAuthentication;
 exports.authenticationToFirestore = AuthenticationService.authenticationToFirestore;
 exports.firestoreToAuthenticationDelete = AuthenticationService.firestoreToAuthenticationDelete;
-exports.publishChatTopic = MessageService.publishChatTopic;
-exports.chatMessageSubscriber = MessageService.chatMessageSubscriber;
-exports.chatFCMSubscriber = MessageService.chatFCMSubscriber;
-exports.publishPostTopic = MessageService.publishPostTopic;
-exports.postMessageSubscriber = MessageService.postMessageSubscriber;
-exports.postFCMSubscriber = MessageService.postFCMSubscriber;
-exports.postLinePushSubscriber = MessageService.postLinePushSubscriber;
+/*
+export const publishChatTopic = MessageService.publishChatTopic
+export const chatMessageSubscriber = MessageService.chatMessageSubscriber
+export const chatFCMSubscriber = MessageService.chatFCMSubscriber
+
+export const publishPostTopic = MessageService.publishPostTopic
+export const postMessageSubscriber = MessageService.postMessageSubscriber
+export const postFCMSubscriber = MessageService.postFCMSubscriber
+export const postLinePushSubscriber = MessageService.postLinePushSubscriber
+*/
 //# sourceMappingURL=index.js.map

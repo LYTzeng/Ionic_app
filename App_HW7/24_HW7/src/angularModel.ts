@@ -1,40 +1,35 @@
 export type Member = {
     id: string
     name: string
-    phone: string
     email: string
     lineId: string
-    fcmToken: string
 }
 
-export type Student = {
+export type User = {
     id: string
-    studentId: string
-    department: string
+    lineId: string
     performance: Performance
     member: Member
-}
-
-export type Performance = {
-    id: string
-    attendCount: number
-    submitCount: number
-    practiceCount: number
-    totalPracticeTime: string
-    practiceAll: string
-    practiceRate: string
-    practiceRank: number
-    actionState: number
-    grade: number
 }
 
 export type Admin = {
     id: string
     account: string
+    password: string
     member: Member
     role: string
     chatCount: ChatCount
     chatMessages?: ChatMessage[]
+}
+
+export type Performance = {
+    id: string,
+    lineId: string,
+    name: string,
+    runningCount: number, //原本是string,
+    totalRunningTime: string,
+    totalRunningDist: number,
+    rank: string
 }
 
 export type ChatCount = {

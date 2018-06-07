@@ -5,54 +5,43 @@
 </ion-header>
 
 <ion-content padding text-center>
-    <ng-container *ngIf="student; else loading">
+    <ng-container *ngIf="user; else loading">
         <ion-item text-center>
             <img src="assets/imgs/icon.png">
         </ion-item>
         <ion-grid text-left class="performance">
             <ion-row>
                 <ion-col col-4>姓名</ion-col>
-                <ion-col col-8>{{student.member.name}}</ion-col>
+                <ion-col col-8>{{user.member.name}}</ion-col>
             </ion-row>
             <ion-row>
-                <ion-col col-4>學號</ion-col>
-                <ion-col col-8>{{student.studentId}}</ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col col-4>系級</ion-col>
-                <ion-col col-8>{{student.department}}</ion-col>
+                <ion-col col-4>信箱</ion-col>
+                <ion-col col-8>{{user.member.email}}</ion-col>
             </ion-row>
             <br />
             <ion-row>
-                <ion-col col-4>上課次數</ion-col>
-                <ion-col col-8>{{student.performance.attendCount}}次</ion-col>
+                <ion-col col-4>跑步次數</ion-col>
+                <ion-col col-8>{{user.performance.runningCount}}次</ion-col>
             </ion-row>
             <br />
             <ion-row>
-                <ion-col col-4>報告次數</ion-col>
-                <ion-col col-8>{{student.performance.submitCount}}次</ion-col>
+                <ion-col col-4>總跑步時數</ion-col>
+                <ion-col col-8>{{user.performance.totalRunningTime}}</ion-col>
             </ion-row>
             <br />
             <ion-row>
-                <ion-col col-4>實習時數</ion-col>
-                <ion-col col-8>{{student.performance.practiceTotal}}</ion-col>
+                <ion-col col-4>總跑步里程</ion-col>
+                <ion-col col-8>{{user.performance.totalRunningDist}}</ion-col>
             </ion-row>
             <ion-row>
-                <ion-col col-4>實習次數</ion-col>
-                <ion-col col-8>{{student.performance.practiceCount}}次</ion-col>
+                <ion-col col-4>排名</ion-col>
+                <ion-col col-8>{{user.performance.rank}}</ion-col>
             </ion-row>
-            <ion-row>
-                <ion-col col-4>實習比例</ion-col>
-                <ion-col col-8>{{student.performance.practiceRate}}</ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col col-4>實習排名</ion-col>
-                <ion-col col-8>{{student.performance.practiceRank}}</ion-col>
-            </ion-row>
+            <!--
             <ion-row *ngIf="mode == 'view'">
                 <ion-col col-4>學期成績</ion-col>
-                <ion-col col-8>{{student.performance.grade || "尚未評量"}}</ion-col>
-            </ion-row>
+                <ion-col col-8>{{user.performance.grade || "尚未評量"}}</ion-col>
+            </ion-row>-->
             <br />
         </ion-grid>
         <button ion-button round *ngIf="mode == 'view' && (admin)?.role == 'manager'" (click)="toggleMode('modify')">評量</button>
@@ -61,7 +50,7 @@
             <ion-label color="primary">學期成績</ion-label>
             <ion-input type="number" [(ngModel)]="grade"></ion-input>
         </ion-item>
-        <button ion-button round *ngIf="mode == 'modify'" [disabled]="!grade || grade < 0 || grade > 100 || !isValid(grade)" (click)="setGrade(student, grade)">評量</button>
+        <button ion-button round *ngIf="mode == 'modify'" [disabled]="!grade || grade < 0 || grade > 100 || !isValid(grade)" (click)="setGrade(user, grade)">評量</button>
         <button ion-button round color="danger" *ngIf="mode == 'modify'" (click)="toggleMode('view')">取消</button>
     </ng-container>
     <ng-template #loading>

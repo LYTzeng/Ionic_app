@@ -1,27 +1,31 @@
 {
   "project_info": {
-    "project_number": "44272689722",
-    "firebase_url": "https://apps2018-104820003.firebaseio.com",
-    "project_id": "apps2018-104820003",
-    "storage_bucket": "apps2018-104820003.appspot.com"
+    "project_number": "583555422665",
+    "firebase_url": "https://midterm-104820003.firebaseio.com",
+    "project_id": "midterm-104820003",
+    "storage_bucket": "midterm-104820003.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:44272689722:android:4176e5ad643f3859",
+        "mobilesdk_app_id": "1:583555422665:android:4176e5ad643f3859",
         "android_client_info": {
           "package_name": "com.liyen.apps2018"
         }
       },
       "oauth_client": [
         {
-          "client_id": "44272689722-55asdq8es98060qsua2mevmcj87miu5j.apps.googleusercontent.com",
+          "client_id": "583555422665-ie488v7qk2cdn7rqkua6ni6e66p4194t.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "583555422665-ie488v7qk2cdn7rqkua6ni6e66p4194t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCXGhFWHnWeR0dssQzB64Z5AHwlFqUoUt8"
+          "current_key": "AIzaSyCAab7zri73Q8pnUSk_7nWQACyy9c7Ho84"
         }
       ],
       "services": {

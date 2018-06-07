@@ -12,7 +12,8 @@ import { Admin, ChatMessage } from '../angularModel'
 
 @Injectable()
 export class MessageService {
-    private url = "http://us-central1-apps2018-104820003.cloudfunctions.net/"
+    //private url = "http://us-central1-apps2018-104820003.cloudfunctions.net/"
+    private url = "http://us-central1-midterm-104820003.cloudfunctions.net/"
     private adminCollection: AngularFirestoreCollection<Admin>
 
     constructor(private database: AngularFirestore, private http: Http, private sqlite: SQLite) {

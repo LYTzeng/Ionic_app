@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs'
 import { AngularFireAuth } from 'angularfire2/auth'
 
 import { FirestoreService } from '../../services/firestoreService'
-import { Student, Admin } from '../../angularModel'
+import { User, Admin } from '../../angularModel'
 
 @Component({
     selector: 'page-performance-detail',
@@ -14,19 +14,19 @@ export class PerformanceDetailController implements OnDestroy{
     logged: Boolean = false
 
     adminSubscription: Subscription
-    studentSubscription: Subscription
+    userSubscription: Subscription
     admin: Admin = null
-    student: Student = null
+    user: User = null
 
     mode: string = "view"
 
     constructor(private navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController, private firestoreService: FirestoreService, private angularfireAuth: AngularFireAuth) {
-        const studentId = navParams.data as string
+        const userId = navParams.data as string
         angularfireAuth.authState.subscribe(firebaseUser => {
             this.logged = !!firebaseUser
             if (this.logged) {
                 this.adminSubscription = firestoreService.getAdminByAccount(firebaseUser.uid).subscribe(admin => this.admin = admin)
-                this.studentSubscription = this.firestoreService.getStudentByStudentId(studentId).subscribe(student => this.student = student)
+                this.userSubscription = this.firestoreService.getUserByLineId(userId).subscribe(user => this.user = user)
             } else {
                 this.ngOnDestroy()
                 navCtrl.pop()
@@ -34,16 +34,16 @@ export class PerformanceDetailController implements OnDestroy{
         })
     }
 
-    setGrade(student: Student, grade: string) {
+    setGrade(user: User, grade: string) {
         this.alertCtrl.create({
-            title: "評量",
-            message: "確認送出成績？",
+            title: "更改跑步次數",
+            message: "確認送出？",
             buttons: [
                 {
                     text: "送出",
                     handler: () => {
-                        student.performance.grade = parseInt(grade)
-                        this.firestoreService.setGrade(student)
+                        user.performance.runningCount = parseInt(grade)
+                        this.firestoreService.setGrade(user)
                         this.toggleMode("view")
                     }
                 },
@@ -70,9 +70,9 @@ export class PerformanceDetailController implements OnDestroy{
     ngOnDestroy() {
         if (this.adminSubscription)
             this.adminSubscription.unsubscribe()
-        if (this.studentSubscription)
-            this.studentSubscription.unsubscribe()
+        if (this.userSubscription)
+            this.userSubscription.unsubscribe()
         this.admin = null
-        this.student = null
+        this.user = null
     }
 }

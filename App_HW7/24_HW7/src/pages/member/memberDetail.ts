@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular'
 import { AngularFireAuth } from 'angularfire2/auth'
 
 import { FirestoreService } from '../../services/firestoreService'
-import { Student } from '../../angularModel'
+import { User } from '../../angularModel'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -12,15 +12,15 @@ import { Subscription } from 'rxjs'
 })
 export class MemberDetailController implements OnDestroy{
     logged: Boolean = false
-    studentSubscription: Subscription
-    student: Student = null
+    userSubscription: Subscription
+    user: User = null
 
     constructor(private navCtrl: NavController, private navParams: NavParams, private firestoreService: FirestoreService, private angularfireAuth: AngularFireAuth) {
-        const studentId = navParams.data as string
+        const userId = navParams.data as string
         angularfireAuth.authState.subscribe(firebaseUser => {
             this.logged = !!firebaseUser
             if (this.logged)
-                this.studentSubscription = firestoreService.getStudentByStudentId(studentId).subscribe(student => this.student = student)
+                this.userSubscription = firestoreService.getUserByLineId(userId).subscribe(user => this.user = user)
             else {
                 this.ngOnDestroy()
                 navCtrl.pop()
@@ -29,8 +29,8 @@ export class MemberDetailController implements OnDestroy{
     }
 
     ngOnDestroy() {
-        if (this.studentSubscription)
-            this.studentSubscription.unsubscribe()
-        this.student = null
+        if (this.userSubscription)
+            this.userSubscription.unsubscribe()
+        this.user = null
     }
 }

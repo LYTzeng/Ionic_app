@@ -5,14 +5,15 @@
 </ion-header>
 <ion-content padding>
     <ion-list inset *ngIf="logged">
-        <ion-item *ngFor="let student of students" [navPush]="memberDetailPage" [navParams]="student.studentId">
+        <ion-item *ngFor="let user of users" [navPush]="memberDetailPage" [navParams]="user.lineId">
             <ion-avatar item-start>
                 <ion-icon name="contact" color="primary"></ion-icon>
             </ion-avatar>
-            <h2>{{student.member.name}}</h2>
-            <p>{{student.studentId}}</p>
-            <p>{{student.department}}</p>
-            <ion-note item-end>{{(student.performance.actionState == 1) ? "實習中" : "離線"}}</ion-note>
+            <h2>{{user.member.name}}</h2>
+            <p>{{user.member.email}}</p>
+            <p>{{user.lineId}}</p>
+            <!--<p>{{user.department}}</p>-->
+            <!--<ion-note item-end>{{(user.performance.actionState == 1) ? "實習中" : "離線"}}</ion-note>-->
         </ion-item>
     </ion-list>
 

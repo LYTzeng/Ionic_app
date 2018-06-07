@@ -3,29 +3,29 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Observable } from 'rxjs'
 import 'rxjs/add/operator/toPromise'
 
-import { Student, Admin } from '../angularModel'
+import { User, Admin } from '../angularModel'
 
 @Injectable()
 export class FirestoreService {
-    private studentCollection: AngularFirestoreCollection<Student>
+    private userCollection: AngularFirestoreCollection<User>
     private adminCollection: AngularFirestoreCollection<Admin>
 
     constructor(private database: AngularFirestore) {
-        this.studentCollection = database.collection<Student>("Student", ref => ref.orderBy("performance.practiceRank", "asc"))
+        this.userCollection = database.collection<User>("User", ref => ref.orderBy("performance.rank", "asc"))
         this.adminCollection = database.collection<Admin>("Admin")
     }
 
-    getStudents(): Observable<Student[]> {
-        return this.studentCollection.valueChanges()
+    getUsers(): Observable<User[]> {
+        return this.userCollection.valueChanges()
     }
 
-    getStudentByStudentId(studentId: string): Observable<Student> {
-        return this.studentCollection.doc<Student>(studentId).valueChanges()
+    getUserByLineId(lineId: string): Observable<User> {
+        return this.userCollection.doc<User>(lineId).valueChanges()
     }
 
-    setGrade(student: Student): Promise<void> {
-        return this.studentCollection.doc(student.studentId).update({
-            performance: student.performance
+    setGrade(user: User): Promise<void> {
+        return this.userCollection.doc(user.lineId).update({
+            performance: user.performance
         })
     }
 

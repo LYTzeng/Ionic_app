@@ -3,7 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth'
 import { PerformanceDetailController } from './performanceDetail'
 
 import { FirestoreService } from '../../services/firestoreService'
-import { Student } from '../../angularModel'
+import { User } from '../../angularModel'
 
 import { Subscription } from 'rxjs'
 
@@ -15,23 +15,23 @@ export class PerformanceListController implements OnDestroy{
     performanceDetailPage: any = PerformanceDetailController
 
     logged: Boolean = false
-    studentsSubscription: Subscription
-    students = new Array<Student>()
+    usersSubscription: Subscription
+    users = new Array<User>()
 
     constructor(private firestoreService: FirestoreService, private angularfireAuth: AngularFireAuth) {
         angularfireAuth.authState.subscribe(firebaseUser => {
             this.logged = !!firebaseUser
             if (this.logged)
-                this.studentsSubscription = this.firestoreService.getStudents().subscribe(students => this.students = students)
+                this.usersSubscription = this.firestoreService.getUsers().subscribe(users => this.users = users)
             else
                 this.ngOnDestroy()
         })
     }
 
     ngOnDestroy() {
-        if (this.studentsSubscription)
-            this.studentsSubscription.unsubscribe()
-        this.students = []
+        if (this.usersSubscription)
+            this.usersSubscription.unsubscribe()
+        this.users = []
     }
 
 }

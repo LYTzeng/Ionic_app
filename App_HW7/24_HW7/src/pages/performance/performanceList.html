@@ -9,34 +9,26 @@
         <h2 class="right">排名</h2>
     </ion-list-header>
     <ion-list *ngIf="logged">
-        <ion-item *ngFor="let student of students; let index = index" [navPush]="performanceDetailPage" [navParams]="student.studentId">
+        <ion-item *ngFor="let user of users; let index = index" [navPush]="performanceDetailPage" [navParams]="user.lineId">
             <ion-badge color="danger" item-start>{{index + 1}}</ion-badge>
             <ion-grid>
                 <ion-row>
                     <ion-col>
-                        <h2>{{student.member.name}}</h2>
+                        <h2>{{user.member.name}}</h2>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col col-7>
-                        <p>出席次數：{{student.performance.attendCount}}</p>
+                        <p>跑步次數：{{user.performance.runningCount}}</p>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col col-7>
-                        <p>繳交次數：{{student.performance.submitCount}}</p>
-                    </ion-col>
-                    <ion-col col-5>
-                        <p>成績：{{student.performance.grade || "尚未評量"}}</p>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col col-7>
-                        <p>實習率：{{student.performance.practiceRate}}</p>
+                        <p>里程：{{user.performance.totalRunningDist}}</p>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <ion-note item-end>{{student.performance.practiceRank}}</ion-note>
+            <ion-note item-end>{{user.performance.rank}}</ion-note>
         </ion-item>
     </ion-list>
     <div *ngIf="!logged" id="hint">

@@ -29,12 +29,12 @@ export class MyApp implements OnDestroy {
                     fcm.subscribeToTopic("postTopic")
                     firestoreService.getAdminByAccount(firebaseUser.uid).subscribe(admin => {
                         fcm.getToken().then(token => {
-                            admin.member.fcmToken = token
+                            //admin.member.fcmToken = token
                             firestoreService.setFcmToken(admin)
                         })
 
                         fcm.onTokenRefresh().subscribe(token => {
-                            admin.member.fcmToken = token
+                            //admin.member.fcmToken = token
                             firestoreService.setFcmToken(admin)
                         })
                     })
