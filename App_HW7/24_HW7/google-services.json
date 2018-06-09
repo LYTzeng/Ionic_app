@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:583555422665:android:4176e5ad643f3859",
+        "mobilesdk_app_id": "1:583555422665:android:808746916640caf5",
         "android_client_info": {
-          "package_name": "com.liyen.apps2018"
+          "package_name": "com.csie.ri"
         }
       },
       "oauth_client": [
