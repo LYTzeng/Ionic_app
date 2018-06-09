@@ -23,55 +23,7 @@ const pubsub = PubSub()
 const firestore = admin.firestore()
 const adminCollection = firestore.collection("Admin")
 const postCollection = firestore.collection("Post")
-const studentCollection = firestore.collection("Student")
 
-export const publishChatTopic = functions.https.onRequest((req, res) => {
-    cors(req, res, async () => {
-        const chatMessage: ChatMessage = req.body
-        await pubsub.topic("chatTopic").publisher().publish(Buffer.from(JSON.stringify(chatMessage)))
-        res.sendStatus(200)
-    })
-})
-
-export const chatMessageSubscriber = functions.pubsub.topic("chatTopic").onPublish(async (data, context) => {
-    const chatMessage: ChatMessage = { id: uuid.v4(), ...data.json, timestamp: new Date().getTime() }
-    const senderReference = adminCollection.doc(chatMessage.sender)
-    const receiverReference = adminCollection.doc(chatMessage.receiver)
-
-    await Promise.all([
-        senderReference.collection("chatMessages").doc(chatMessage.id).create(chatMessage),
-        receiverReference.collection("chatMessages").doc(chatMessage.id).create(chatMessage),
-        firestore.runTransaction(async transaction => {
-            const senderDocument = await transaction.get(senderReference)
-            const sender = senderDocument.data() as Admin
-            const senderChatCount = sender.chatCount || { postCount: 0, sendCount: 0, receiveCount: 0 }
-            return transaction.update(senderReference, { chatCount: { ...senderChatCount, sendCount: senderChatCount.sendCount + 1 } })
-        }),
-        firestore.runTransaction(async transaction => {
-            const receiverDocument = await transaction.get(receiverReference)
-            const receiver = receiverDocument.data() as Admin
-            const receiverChatCount = receiver.chatCount || { postCount: 0, sendCount: 0, receiveCount: 0 }
-            return transaction.update(receiverReference, { chatCount: { ...receiverChatCount, receiveCount: receiverChatCount.receiveCount + 1 } })
-        })
-    ])
-})
-
-export const chatFCMSubscriber = functions.pubsub.topic("chatTopic").onPublish(async (data, context) => {
-    const chatMessage: ChatMessage = data.json
-    const receiverDocument = await adminCollection.doc(chatMessage.receiver).get()
-    const senderDocument = await adminCollection.doc(chatMessage.sender).get()
-    const receiver = receiverDocument.data() as Admin
-    const sender = senderDocument.data() as Admin
-
-    const notificationPayload: admin.messaging.MessagingPayload = {
-        notification: {
-            title: sender.member.name,
-            body: chatMessage.message,
-            sound: "default"
-        }
-    }
-    return messaging.sendToDevice(receiver.member.fcmToken, notificationPayload)
-})
 
 export const publishPostTopic = functions.https.onRequest((req, res) => {
     cors(req, res, async () => {
@@ -96,17 +48,6 @@ export const postMessageSubscriber = functions.pubsub.topic("postTopic").onPubli
     ])
 })
 
-export const postFCMSubscriber = functions.pubsub.topic("postTopic").onPublish(async (data, context) => {
-    const message: ChatMessage = data.json
-    const notificationPayload: admin.messaging.MessagingPayload = {
-        notification: {
-            title: "《智能學堂》公告",
-            body: message.message,
-            sound: "default"
-        }
-    }
-    return messaging.sendToTopic("postTopic", notificationPayload)
-})
 
 export const postLinePushSubscriber = functions.pubsub.topic("postTopic").onPublish(async (data, context) => {
     const chatMessage: ChatMessage = data.json
