@@ -1,38 +1,49 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>訊息對話</ion-title>
+        <ion-title>發送公告</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content padding text-center>
     <ion-list *ngIf="logged">
-        <ion-item *ngFor="let admin of admins" (click)="contactChat(admin.account)">
+        <ion-item *ngFor="let admin of admins">
             <ion-avatar item-start>
                 <ion-icon name="contact" color="primary"></ion-icon>
             </ion-avatar>
             <h2>{{admin.member.name}}</h2>
             <p>公告次數：{{admin.chatCount?.postCount || 0}}</p>
-            <p>發訊次數：{{admin.chatCount?.sendCount || 0}}</p>
-            <p>收訊次數：{{admin.chatCount?.receiveCount || 0}}</p>
         </ion-item>
     </ion-list>
 
     <div *ngIf="logged && (admin)?.role == 'manager'">
-        <h5>編輯公告</h5>
-        <ion-textarea rows="3" [(ngModel)]="postMessage" [ngModelOptions]="{standalone: true}" placeholder="請輸入訊息"></ion-textarea>
-        <button ion-button color="secondary" round (click)="sendPostMessage()">發送公告</button>
+        <ion-textarea rows="2" [(ngModel)]="postMessage" [ngModelOptions]="{standalone: true}" placeholder="請輸入訊息"></ion-textarea>
+        <ion-icon name="send" (click)="sendPostMessage()" style="color:firebrick"></ion-icon>
     </div>
 
-    <div *ngIf="!logged" id="hint">
-        <ion-card text-left>
-            <ion-card-header>
-                <h1>歡迎使用</h1>
-            </ion-card-header>
-            <ion-card-content>
-                <p>《智能學堂》課程管理App</p>
-                <p>請點擊【設定】選單</p>
-                <p>完成登入手續</p>
-                <p>以開啟管理功能</p>
-            </ion-card-content>
-        </ion-card>
+    <div *ngIf="logged && (admin)?.role == 'staff'" text-left>
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-icon name="warning" (click)="sendPostMessage()" style="color:firebrick"><h2 style="color:firebrick">權限不足</h2></ion-icon>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <p>您目前只是staff</p>
+                            <p>要升值/加薪</p>
+                            <p>請找manager</p>
+                        </ion-card-content>
+                    </ion-card>
+    </div>
+
+    <div *ngIf="!logged" id="hint" text-center>
+            <ion-card>
+                <ion-card-header>
+                    <img src="assets/imgs/icon.png" style="width: 50%; display: block; margin-left: auto; margin-right: auto"/>
+                    <h1>Welcome</h1>
+                </ion-card-header>
+                <ion-card-content>
+                    <p>智能跑步幫手 管理App</p>
+                    <p>請點擊【設定】選單</p>
+                    <p>完成登入手續</p>
+                    <p>以開啟管理功能</p>
+                </ion-card-content>
+            </ion-card>
     </div>
 </ion-content>

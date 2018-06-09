@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { Headers, Http, Response } from '@angular/http'
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore'
-import * as uuid from 'uuid'
+//import * as uuid from 'uuid'
 
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite'
+//import { SQLite, SQLiteObject } from '@ionic-native/sqlite'
 
 import { Observable } from 'rxjs'
 import 'rxjs/add/operator/toPromise'
@@ -12,13 +12,12 @@ import { Admin, ChatMessage } from '../angularModel'
 
 @Injectable()
 export class MessageService {
-    //private url = "http://us-central1-apps2018-104820003.cloudfunctions.net/"
     private url = "http://us-central1-midterm-104820003.cloudfunctions.net/"
     private adminCollection: AngularFirestoreCollection<Admin>
 
-    constructor(private database: AngularFirestore, private http: Http, private sqlite: SQLite) {
+    constructor(private database: AngularFirestore, private http: Http /*, private sqlite: SQLite*/) {
         this.adminCollection = database.collection<Admin>("Admin")
-        this.getSQLiteDB()
+        //this.getSQLiteDB()
     }
 
     getLatestPost(): Observable<ChatMessage> {
@@ -26,6 +25,7 @@ export class MessageService {
         return postCollection.valueChanges().map(messages => messages[0])
     }
 
+    /*
     getChatMessageByAccount(account: string): Observable<ChatMessage[]> {
         return this.adminCollection.doc(account).collection<ChatMessage>("chatMessages").valueChanges() //valueChanges(["added"])
     }
@@ -37,12 +37,13 @@ export class MessageService {
     async publishChatMessage(chatMessage: ChatMessage): Promise<any> {
         return this.http.post(this.url + "/publishChatTopic", chatMessage).toPromise()
     }
-
+    */
     async publishPostMessage(chatMessage: ChatMessage): Promise<any> {
         this.http.post(this.url + "/publishPostTopic", chatMessage).toPromise()
 
     }
 
+    /*
     async getSQLiteDB(): Promise<SQLiteObject> {
         const sqliteDB = await this.sqlite.create({
             name: "MESSAGE.RECORD.db",
@@ -66,5 +67,6 @@ export class MessageService {
             chatMessages.push(values.rows.item(index))
         return chatMessages
     }
-
+*/
 }
+

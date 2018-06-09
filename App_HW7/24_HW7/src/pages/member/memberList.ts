@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs'
     selector: 'page-memberList',
     templateUrl: 'memberList.html'
 })
-export class MemberListController implements OnDestroy{
+export class MemberListController {
     memberDetailPage: any = MemberDetailController
 
     logged: Boolean = false

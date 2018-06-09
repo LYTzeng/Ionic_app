@@ -12,18 +12,17 @@
             <h2>{{user.member.name}}</h2>
             <p>{{user.member.email}}</p>
             <p>{{user.lineId}}</p>
-            <!--<p>{{user.department}}</p>-->
-            <!--<ion-note item-end>{{(user.performance.actionState == 1) ? "實習中" : "離線"}}</ion-note>-->
         </ion-item>
     </ion-list>
 
-    <div *ngIf="!logged" id="hint">
+    <div *ngIf="!logged" id="hint" text-center>
         <ion-card>
             <ion-card-header>
-                <h1>歡迎使用</h1>
+                <img src="assets/imgs/icon.png" style="width: 50%; display: block; margin-left: auto; margin-right: auto"/>
+                <h1>Welcome</h1>
             </ion-card-header>
             <ion-card-content>
-                <p>《智能學堂》課程管理App</p>
+                <p>智能跑步幫手 管理App</p>
                 <p>請點擊【設定】選單</p>
                 <p>完成登入手續</p>
                 <p>以開啟管理功能</p>

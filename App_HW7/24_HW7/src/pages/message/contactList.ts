@@ -4,7 +4,6 @@ import { App } from 'ionic-angular'
 import { AngularFireAuth } from 'angularfire2/auth'
 import * as uuid from 'uuid'
 
-import { ContactChatController } from './contactChat'
 import { FirestoreService } from '../../services/firestoreService'
 import { MessageService } from '../../services/messageService'
 
@@ -23,7 +22,7 @@ export class ContactListController implements OnDestroy {
     adminsSubscription: Subscription
     admins: Admin[] = []
 
-    postMessage: string = "《智能學堂》關心您！"
+    postMessage: string = "您好！"
 
     constructor(private appCtrl: App, private firebaseService: FirestoreService, private messageService: MessageService, private angularfireAuth: AngularFireAuth, private alertCtrl: AlertController) {
         angularfireAuth.authState.subscribe(firebaseUser => {
@@ -40,10 +39,6 @@ export class ContactListController implements OnDestroy {
         })
     }
 
-    contactChat(account: string) {
-        this.appCtrl.getRootNav().push(ContactChatController, account)
-    }
-
     async sendPostMessage() {
         if (this.postMessage !== "") {
             const postMessage = {
@@ -53,7 +48,7 @@ export class ContactListController implements OnDestroy {
             this.messageService.publishPostMessage(postMessage)
             this.postMessage = ""
             this.alertCtrl.create({
-                title: "學堂公告",
+                title: "公告",
                 message: "公告已發送",
                 buttons: [{ text: "確認" }]
             }).present()

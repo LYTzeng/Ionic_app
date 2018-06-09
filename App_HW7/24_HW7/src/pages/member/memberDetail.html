@@ -10,31 +10,41 @@
             <img src="assets/imgs/icon.png">
         </ion-item>
         <ion-grid class="profile">
-            <ion-row>
+            <ion-row *ngIf="mode == 'view'">
                 <ion-col col-3>姓名</ion-col>
                 <ion-col col-9>{{user.member.name}}</ion-col>
             </ion-row>
-            <br />
+            
+            <ion-item text-left *ngIf="mode == 'modify'">
+                <ion-label color="primary">姓名</ion-label>
+                <ion-input type="string" [(ngModel)]="name" [placeholder]="user.member.name"></ion-input>
+            </ion-item>
+           
 
-            <ion-row>
+            <ion-row *ngIf="mode == 'view'">
                 <ion-col col-3>Email</ion-col>
                 <ion-col col-9>
                     <a [href]="'mailto:' + user.member.email">{{user.member.email}}</a>
                 </ion-col>
             </ion-row>
+
+            <ion-item text-left *ngIf="mode == 'modify'">
+                    <ion-label color="primary">Email</ion-label>
+                    <ion-input type="string" [(ngModel)]="email" [placeholder]="user.member.email"></ion-input>
+            </ion-item>
+
             <ion-row>
                 <ion-col col-3>Line</ion-col>
                 <ion-col col-9>{{user.member.lineId}}</ion-col>
             </ion-row>
             <br />
-            <!--
-            <ion-row>
-                <ion-col col-3>狀態</ion-col>
-                <ion-col col-9 item-end>{{(user.performance.actionState == 1) ? "實習中" : "離線"}}</ion-col>
-            </ion-row>
-        -->
         </ion-grid>
+
+        <button ion-button round *ngIf="mode == 'view' && (admin)?.role == 'manager'" (click)="toggleMode('modify')">更改資料</button>
+        <button ion-button round *ngIf="mode == 'modify'" (click)="changeProfile(user, name, email)">更改</button>
+        <button ion-button round outline color="dark" *ngIf="mode == 'modify'" (click)="toggleMode('view')">取消</button>
     </ng-container>
+
     <ng-template #loading>
         Loading...
     </ng-template>

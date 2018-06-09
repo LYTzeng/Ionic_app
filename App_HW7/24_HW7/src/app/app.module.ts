@@ -5,9 +5,6 @@ import { HttpModule } from '@angular/http'
 import { IonicStorageModule } from '@ionic/storage'
 import { MyApp } from './app.component'
 
-import { SQLite } from '@ionic-native/sqlite'
-import { FCM } from '@ionic-native/fcm'
-
 import { AngularFireModule } from 'angularfire2'
 import { AngularFirestoreModule } from 'angularfire2/firestore'
 import { AngularFireAuth } from 'angularfire2/auth'
@@ -18,7 +15,6 @@ import { MemberDetailController } from '../pages/member/memberDetail'
 import { PerformanceListController } from '../pages/performance/performanceList'
 import { PerformanceDetailController } from '../pages/performance/performanceDetail'
 import { ContactListController } from '../pages/message/contactList'
-import { ContacthatModule } from '../pages/message/contactChat.module'
 import { SettingController } from '../pages/setting/setting'
 
 import { FirestoreService } from '../services/firestoreService'
@@ -49,8 +45,7 @@ import * as environment from './environment'
         }),
         HttpModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFirestoreModule,
-        ContacthatModule
+        AngularFirestoreModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -68,8 +63,6 @@ import * as environment from './environment'
         SplashScreen,
         { provide: ErrorHandler, useClass: IonicErrorHandler },
         AngularFireAuth,
-        SQLite,
-        FCM,
         FirestoreService,
         MessageService
     ]

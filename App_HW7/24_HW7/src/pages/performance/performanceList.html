@@ -5,12 +5,11 @@
 </ion-header>
 <ion-content padding text-center>
     <ion-list-header *ngIf="logged">
-        <h2 class="left">點閱率</h2>
-        <h2 class="right">排名</h2>
+        <h2 class="left">排名</h2>
     </ion-list-header>
     <ion-list *ngIf="logged">
-        <ion-item *ngFor="let user of users; let index = index" [navPush]="performanceDetailPage" [navParams]="user.lineId">
-            <ion-badge color="danger" item-start>{{index + 1}}</ion-badge>
+        <ion-item *ngFor="let user of users" [navPush]="performanceDetailPage" [navParams]="user.lineId">
+            <ion-badge color="danger" item-start>{{user.performance.rank}}</ion-badge>
             <ion-grid>
                 <ion-row>
                     <ion-col>
@@ -19,30 +18,29 @@
                 </ion-row>
                 <ion-row>
                     <ion-col col-7>
-                        <p>跑步次數：{{user.performance.runningCount}}</p>
+                        <p>跑步次數：{{user.performance.runningCount}} 次</p>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col col-7>
-                        <p>里程：{{user.performance.totalRunningDist}}</p>
+                        <p>里程：{{user.performance.totalRunningDist/1000}} km</p>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <ion-note item-end>{{user.performance.rank}}</ion-note>
         </ion-item>
     </ion-list>
-    <div *ngIf="!logged" id="hint">
-        <ion-card text-left>
-            <ion-card-header>
-                <h1>歡迎使用</h1>
-            </ion-card-header>
-            <ion-card-content>
-                <p>《智能學堂》課程管理App</p>
-                <p>請點擊【設定】選單</p>
-                <p>完成登入手續</p>
-                <p>以開啟管理功能</p>
-            </ion-card-content>
-        </ion-card>
-
+    <div *ngIf="!logged" id="hint" text-center>
+            <ion-card>
+                <ion-card-header>
+                    <img src="assets/imgs/icon.png" style="width: 50%; display: block; margin-left: auto; margin-right: auto"/>
+                    <h1>Welcome</h1>
+                </ion-card-header>
+                <ion-card-content>
+                    <p>智能跑步幫手 管理App</p>
+                    <p>請點擊【設定】選單</p>
+                    <p>完成登入手續</p>
+                    <p>以開啟管理功能</p>
+                </ion-card-content>
+            </ion-card>
     </div>
 </ion-content>
